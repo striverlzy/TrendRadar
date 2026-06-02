@@ -69,17 +69,21 @@ rss:
       url: "https://finance.yahoo.com/news/rssindex"
 
     # ==================== 新浪财经 RSS（新增）====================
-    - id: "sina-finance-hot"
-      name: "新浪财经要闻汇总"
-      url: "http://rss.sina.com.cn/roll/finance/hot_roll.xml"
+    - id: "sina-finance"
+      name: "新浪财经"
+      url: "https://finance.sina.com.cn/rss/roll.xml"     # 主频道
 
-    - id: "sina-finance-focus"
-      name: "新浪财经焦点新闻"
-      url: "http://rss.sina.com.cn/news/allnews/finance.xml"
+    - id: "sina-stock"
+      name: "新浪股市"
+      url: "https://finance.sina.com.cn/stock/roll.xml"
 
-    - id: "sina-stock-hot"
-      name: "新浪股票要闻"
-      url: "http://rss.sina.com.cn/roll/stock/hot_roll.xml"
+    - id: "sina-fund"
+      name: "新浪基金"
+      url: "https://finance.sina.com.cn/fund/roll.xml"
+
+    - id: "sina-economy"
+      name: "新浪宏观经济"
+      url: "https://finance.sina.com.cn/economy/roll.xml"
     # ============================================================
 
 # ===============================================================
