@@ -1,8 +1,10 @@
-# ═══════════════════════════════════════════════════════════════
-# TrendRadar 配置文件
-# Version: 2.2.0
-# 可视化配置编辑器: https://sansan0.github.io/TrendRadar/
-# ═══════════════════════════════════════════════════════════════
+# ===============================================================
+# TrendRadar config.yaml
+# 目标：
+# 1. 完整接入新浪财经官方 RSS
+# 2. 接入雪球 RSSHub 数据源
+# 3. 优先保证 RSS 抓取和推送稳定
+# ===============================================================
 
 # ===============================================================
 # 1. 基础设置
@@ -12,172 +14,279 @@ app:
   show_version_update: true
 
 # ===============================================================
-# 1.5 调度系统
+# 2. 调度系统
 # ===============================================================
 schedule:
   enabled: true
-  preset: "full_day" # 可选: morning_evening / work_hours / full_day
+  preset: "full_day" # morning_evening / work_hours / full_day
 
 # ===============================================================
-# 2. 数据源 - 热榜平台
+# 3. 热榜平台
 # ===============================================================
 platforms:
   enabled: true
   sources:
+    - id: "cls-hot"
+      name: "财联社热门"
+
+    - id: "wallstreetcn-hot"
+      name: "华尔街见闻"
+
     - id: "toutiao"
       name: "今日头条"
 
     - id: "baidu"
       name: "百度热搜"
 
-    - id: "wallstreetcn-hot"
-      name: "华尔街见闻"
-
-    - id: "thepaper"
-      name: "澎湃新闻"
-
-    - id: "bilibili-hot-search"
-      name: "bilibili 热搜"
-
-    - id: "cls-hot"
-      name: "财联社热门"
-
-    - id: "ifeng"
-      name: "凤凰网"
-
-    - id: "tieba"
-      name: "贴吧"
-
     - id: "weibo"
       name: "微博"
-
-    - id: "douyin"
-      name: "抖音"
 
     - id: "zhihu"
       name: "知乎"
 
 # ===============================================================
-# 3. 数据源 - RSS 订阅
+# 4. RSS 订阅源
 # ===============================================================
 rss:
   enabled: true
 
   freshness_filter:
     enabled: true
-    max_age_days: 1 # 财经资讯仅保留 1 天内内容
+    max_age_days: 1
 
   feeds:
-    # -------------------- 境外不可用源，默认关闭 --------------------
-    - id: "hacker-news"
-      name: "Hacker News"
-      url: "https://hnrss.org/frontpage"
-      enabled: false
+    # ===========================================================
+    # 新浪财经官方 RSS
+    # 来源：新浪财经 OPML
+    # ===========================================================
 
-    - id: "ruanyifeng"
-      name: "阮一峰的网络日志"
-      url: "http://www.ruanyifeng.com/blog/atom.xml"
-      enabled: false
-
-    - id: "yahoo-finance"
-      name: "雅虎财经"
-      url: "https://finance.yahoo.com/news/rssindex"
-      enabled: false
-
-    # ==================== 新浪财经 RSS ====================
-    - id: "sina-finance-roll"
-      name: "新浪财经要闻"
-      url: "https://rss.sina.com.cn/finance/roll.xml"
+    - id: "sina-finance-hot"
+      name: "新浪财经-财经要闻汇总"
+      url: "http://rss.sina.com.cn/roll/finance/hot_roll.xml"
       interval: 300
       enabled: true
 
     - id: "sina-finance-focus"
-      name: "新浪财经焦点"
-      url: "https://rss.sina.com.cn/finance/focus.xml"
+      name: "新浪财经-焦点新闻"
+      url: "http://rss.sina.com.cn/news/allnews/finance.xml"
       interval: 300
       enabled: true
 
-    - id: "sina-stock"
-      name: "新浪股市要闻"
-      url: "https://rss.sina.com.cn/finance/stock.xml"
+    - id: "sina-finance-jsy"
+      name: "新浪财经-股市及时雨"
+      url: "http://rss.sina.com.cn/finance/jsy.xml"
+      interval: 180
+      enabled: true
+
+    - id: "sina-stock-hot"
+      name: "新浪财经-股票要闻汇总"
+      url: "http://rss.sina.com.cn/roll/stock/hot_roll.xml"
       interval: 180
       enabled: true
 
     - id: "sina-fund"
-      name: "新浪基金要闻"
-      url: "https://rss.sina.com.cn/finance/fund.xml"
+      name: "新浪财经-基金要闻"
+      url: "http://rss.sina.com.cn/finance/fund.xml"
+      interval: 600
+      enabled: true
+
+    - id: "sina-financial"
+      name: "新浪财经-理财要闻"
+      url: "http://rss.sina.com.cn/finance/financial.xml"
       interval: 600
       enabled: true
 
     - id: "sina-usstock"
-      name: "新浪美股快讯"
-      url: "https://rss.sina.com.cn/finance/usstock.xml"
+      name: "新浪财经-美股快报"
+      url: "http://rss.sina.com.cn/finance/usstock.xml"
       interval: 300
       enabled: true
 
     - id: "sina-hkstock"
-      name: "新浪港股快讯"
-      url: "https://rss.sina.com.cn/finance/hkstock.xml"
+      name: "新浪财经-港股快讯"
+      url: "http://rss.sina.com.cn/finance/hkstock.xml"
       interval: 300
       enabled: true
 
-    - id: "sina-futures"
-      name: "新浪期货要闻"
-      url: "https://rss.sina.com.cn/finance/futures.xml"
+    - id: "sina-future"
+      name: "新浪财经-期货要闻"
+      url: "http://rss.sina.com.cn/finance/future.xml"
       interval: 600
       enabled: true
 
-    # ==================== 新浪财经 7x24 快讯 ====================
+    # ===========================================================
+    # 新浪财经 7x24 快讯
+    # 说明：这个不是新浪官方 RSS，是 RSSHub 转换源
+    # 如果 rsshub.app 不稳定，建议后续自建 RSSHub
+    # ===========================================================
+
     - id: "sina-finance-7x24"
-      name: "新浪财经 7x24 快讯"
+      name: "新浪财经-7x24快讯"
       url: "https://rsshub.app/sina/finance/7x24"
       interval: 60
       enabled: true
 
-    # ==================== 拓展财经平台 ====================
-    - id: "cls-telegraph"
-      name: "财联社电报"
-      url: "https://rsshub.app/cls/telegraph"
-      interval: 60
-      enabled: true
+    # ===========================================================
+    # 雪球 RSSHub
+    # 说明：
+    # 1. 雪球不建议依赖所谓官方 RSS
+    # 2. 这里使用 RSSHub 路由
+    # 3. 股票代码格式：
+    #    深市：SZ000001
+    #    沪市：SH600519
+    #    北交所：BJxxxxxx
+    # ===========================================================
 
-    - id: "eastmoney-finance"
-      name: "东方财富网要闻"
-      url: "https://rss.eastmoney.com/news/finance.xml"
-      interval: 300
-      enabled: true
-
-    - id: "yicai-main"
-      name: "第一财经要闻"
-      url: "https://www.yicai.com/rss/"
-      interval: 300
-      enabled: true
-
-    - id: "xueqiu-hot"
-      name: "雪球热门讨论"
-      url: "https://rsshub.app/xueqiu/hot"
+    - id: "xueqiu-hots"
+      name: "雪球-热帖"
+      url: "https://rsshub.app/xueqiu/hots"
       interval: 600
       enabled: true
 
+    # 贵州茅台
+    - id: "xueqiu-sh600519-announcement"
+      name: "雪球-贵州茅台-公告"
+      url: "https://rsshub.app/xueqiu/stock_info/SH600519/announcement"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sh600519-news"
+      name: "雪球-贵州茅台-新闻"
+      url: "https://rsshub.app/xueqiu/stock_info/SH600519/news"
+      interval: 900
+      enabled: true
+
+    - id: "xueqiu-sh600519-research"
+      name: "雪球-贵州茅台-研报"
+      url: "https://rsshub.app/xueqiu/stock_info/SH600519/research"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sh600519-comments"
+      name: "雪球-贵州茅台-评论"
+      url: "https://rsshub.app/xueqiu/stock_comments/SH600519"
+      interval: 900
+      enabled: true
+
+    # 宁德时代
+    - id: "xueqiu-sz300750-announcement"
+      name: "雪球-宁德时代-公告"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ300750/announcement"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sz300750-news"
+      name: "雪球-宁德时代-新闻"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ300750/news"
+      interval: 900
+      enabled: true
+
+    - id: "xueqiu-sz300750-research"
+      name: "雪球-宁德时代-研报"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ300750/research"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sz300750-comments"
+      name: "雪球-宁德时代-评论"
+      url: "https://rsshub.app/xueqiu/stock_comments/SZ300750"
+      interval: 900
+      enabled: true
+
+    # 比亚迪
+    - id: "xueqiu-sz002594-announcement"
+      name: "雪球-比亚迪-公告"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ002594/announcement"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sz002594-news"
+      name: "雪球-比亚迪-新闻"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ002594/news"
+      interval: 900
+      enabled: true
+
+    - id: "xueqiu-sz002594-research"
+      name: "雪球-比亚迪-研报"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ002594/research"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sz002594-comments"
+      name: "雪球-比亚迪-评论"
+      url: "https://rsshub.app/xueqiu/stock_comments/SZ002594"
+      interval: 900
+      enabled: true
+
+    # 工业富联
+    - id: "xueqiu-sh601138-announcement"
+      name: "雪球-工业富联-公告"
+      url: "https://rsshub.app/xueqiu/stock_info/SH601138/announcement"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sh601138-news"
+      name: "雪球-工业富联-新闻"
+      url: "https://rsshub.app/xueqiu/stock_info/SH601138/news"
+      interval: 900
+      enabled: true
+
+    - id: "xueqiu-sh601138-research"
+      name: "雪球-工业富联-研报"
+      url: "https://rsshub.app/xueqiu/stock_info/SH601138/research"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sh601138-comments"
+      name: "雪球-工业富联-评论"
+      url: "https://rsshub.app/xueqiu/stock_comments/SH601138"
+      interval: 900
+      enabled: true
+
+    # 中际旭创
+    - id: "xueqiu-sz300308-announcement"
+      name: "雪球-中际旭创-公告"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ300308/announcement"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sz300308-news"
+      name: "雪球-中际旭创-新闻"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ300308/news"
+      interval: 900
+      enabled: true
+
+    - id: "xueqiu-sz300308-research"
+      name: "雪球-中际旭创-研报"
+      url: "https://rsshub.app/xueqiu/stock_info/SZ300308/research"
+      interval: 1800
+      enabled: true
+
+    - id: "xueqiu-sz300308-comments"
+      name: "雪球-中际旭创-评论"
+      url: "https://rsshub.app/xueqiu/stock_comments/SZ300308"
+      interval: 900
+      enabled: true
+
 # ===============================================================
-# 4. 报告模式
+# 5. 报告模式
 # ===============================================================
 report:
   mode: "current"
   display_mode: "keyword"
   sort_by_position_first: false
   rank_threshold: 5
-  max_news_per_keyword: 5
+  max_news_per_keyword: 8
 
 # ===============================================================
-# 4.5 筛选策略
+# 6. 筛选策略
 # ===============================================================
 filter:
-  method: "keyword" # 可改为 "ai" 启用 AI 智能筛选
+  method: "keyword"
   priority_sort_enabled: true
 
 # ===============================================================
-# 4.6 AI 智能筛选配置
+# 7. AI 智能筛选
 # ===============================================================
 ai_filter:
   batch_size: 200
@@ -189,7 +298,7 @@ ai_filter:
   update_tags_prompt_file: "update_tags_prompt.txt"
 
 # ===============================================================
-# 5. 推送内容控制
+# 8. 推送内容控制
 # ===============================================================
 display:
   region_order:
@@ -208,32 +317,40 @@ display:
 
   standalone:
     platforms:
-      - "zhihu"
+      - "cls-hot"
       - "wallstreetcn-hot"
+      - "zhihu"
     rss_feeds: []
     max_items: 20
 
 # ===============================================================
-# 6. 推送通知
+# 9. 推送通知
+# 你推送没成功，大概率是这里没有配置 webhook / topic
+# 先用 ntfy 测试最简单
 # ===============================================================
 notification:
   enabled: true
 
   channels:
+    # 飞书
     feishu:
-      webhook_url: "" # 填入你的飞书 webhook
+      webhook_url: ""
 
+    # 钉钉
     dingtalk:
-      webhook_url: "" # 填入你的钉钉 webhook
+      webhook_url: ""
 
+    # 企业微信
     wework:
-      webhook_url: "" # 填入你的企业微信 webhook
+      webhook_url: ""
       msg_type: "markdown"
 
+    # Telegram
     telegram:
       bot_token: ""
       chat_id: ""
 
+    # 邮件
     email:
       from: ""
       password: ""
@@ -241,23 +358,27 @@ notification:
       smtp_server: ""
       smtp_port: ""
 
+    # ntfy，最容易测试
     ntfy:
       server_url: "https://ntfy.sh"
-      topic: "trendradar-finance"
+      topic: "trendradar-finance-yuwu5067"
       token: ""
 
+    # Bark
     bark:
       url: ""
 
+    # Slack
     slack:
       webhook_url: ""
 
+    # 通用 Webhook
     generic_webhook:
       webhook_url: ""
       payload_template: ""
 
 # ===============================================================
-# 7. 存储配置
+# 10. 存储配置
 # ===============================================================
 storage:
   backend: "auto"
@@ -284,11 +405,11 @@ storage:
     days: 7
 
 # ===============================================================
-# 8. AI 模型配置
+# 11. AI 模型配置
 # ===============================================================
 ai:
   model: "deepseek/deepseek-v4-flash"
-  api_key: "" # 填入你的 DeepSeek API Key
+  api_key: ""
   api_base: ""
   timeout: 120
   temperature: 0.7
@@ -297,7 +418,7 @@ ai:
   fallback_models: []
 
 # ===============================================================
-# 9. AI 分析功能
+# 12. AI 分析功能
 # ===============================================================
 ai_analysis:
   enabled: true
@@ -310,7 +431,7 @@ ai_analysis:
   include_rank_timeline: true
 
 # ===============================================================
-# 10. AI 翻译功能
+# 13. AI 翻译功能
 # ===============================================================
 ai_translation:
   enabled: true
@@ -323,10 +444,11 @@ ai_translation:
     standalone: true
 
 # ===============================================================
-# 11. 高级设置
+# 14. 高级设置
 # ===============================================================
 advanced:
   debug: false
+
   version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version"
   mcp_version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version_mcp"
   configs_version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version_configs"
@@ -338,7 +460,7 @@ advanced:
 
   rss:
     request_interval: 1000
-    timeout: 15
+    timeout: 20
     use_proxy: false
     proxy_url: ""
 
