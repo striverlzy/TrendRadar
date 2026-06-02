@@ -1,8 +1,9 @@
 # ═══════════════════════════════════════════════════════════════
 # TrendRadar 配置文件
 # Version: 2.2.0
+# 可视化配置编辑器: https://sansan0.github.io/TrendRadar/
 # ═══════════════════════════════════════════════════════════════
-# 可视化配置编辑器地址: https://sansan0.github.io/TrendRadar/
+
 # ===============================================================
 # 1. 基础设置
 # ===============================================================
@@ -14,8 +15,8 @@ app:
 # 1.5 调度系统
 # ===============================================================
 schedule:
-  enabled: false
-  preset: "morning_evening"
+  enabled: true
+  preset: "full_day" # 可选: morning_evening / work_hours / full_day
 
 # ===============================================================
 # 2. 数据源 - 热榜平台
@@ -25,24 +26,34 @@ platforms:
   sources:
     - id: "toutiao"
       name: "今日头条"
+
     - id: "baidu"
       name: "百度热搜"
+
     - id: "wallstreetcn-hot"
       name: "华尔街见闻"
+
     - id: "thepaper"
       name: "澎湃新闻"
+
     - id: "bilibili-hot-search"
       name: "bilibili 热搜"
+
     - id: "cls-hot"
       name: "财联社热门"
+
     - id: "ifeng"
       name: "凤凰网"
+
     - id: "tieba"
       name: "贴吧"
+
     - id: "weibo"
       name: "微博"
+
     - id: "douyin"
       name: "抖音"
+
     - id: "zhihu"
       name: "知乎"
 
@@ -51,14 +62,18 @@ platforms:
 # ===============================================================
 rss:
   enabled: true
+
   freshness_filter:
     enabled: true
-    max_age_days: 1
+    max_age_days: 1 # 财经资讯仅保留 1 天内内容
 
   feeds:
+    # -------------------- 境外不可用源，默认关闭 --------------------
     - id: "hacker-news"
       name: "Hacker News"
       url: "https://hnrss.org/frontpage"
+      enabled: false
+
     - id: "ruanyifeng"
       name: "阮一峰的网络日志"
       url: "http://www.ruanyifeng.com/blog/atom.xml"
@@ -67,24 +82,82 @@ rss:
     - id: "yahoo-finance"
       name: "雅虎财经"
       url: "https://finance.yahoo.com/news/rssindex"
+      enabled: false
 
-    # ==================== 新浪财经 RSS（新增）====================
-    - id: "sina-finance"
-      name: "新浪财经"
-      url: "https://finance.sina.com.cn/rss/roll.xml"     # 主频道
+    # ==================== 新浪财经 RSS ====================
+    - id: "sina-finance-roll"
+      name: "新浪财经要闻"
+      url: "https://rss.sina.com.cn/finance/roll.xml"
+      interval: 300
+      enabled: true
+
+    - id: "sina-finance-focus"
+      name: "新浪财经焦点"
+      url: "https://rss.sina.com.cn/finance/focus.xml"
+      interval: 300
+      enabled: true
 
     - id: "sina-stock"
-      name: "新浪股市"
-      url: "https://finance.sina.com.cn/stock/roll.xml"
+      name: "新浪股市要闻"
+      url: "https://rss.sina.com.cn/finance/stock.xml"
+      interval: 180
+      enabled: true
 
     - id: "sina-fund"
-      name: "新浪基金"
-      url: "https://finance.sina.com.cn/fund/roll.xml"
+      name: "新浪基金要闻"
+      url: "https://rss.sina.com.cn/finance/fund.xml"
+      interval: 600
+      enabled: true
 
-    - id: "sina-economy"
-      name: "新浪宏观经济"
-      url: "https://finance.sina.com.cn/economy/roll.xml"
-    # ============================================================
+    - id: "sina-usstock"
+      name: "新浪美股快讯"
+      url: "https://rss.sina.com.cn/finance/usstock.xml"
+      interval: 300
+      enabled: true
+
+    - id: "sina-hkstock"
+      name: "新浪港股快讯"
+      url: "https://rss.sina.com.cn/finance/hkstock.xml"
+      interval: 300
+      enabled: true
+
+    - id: "sina-futures"
+      name: "新浪期货要闻"
+      url: "https://rss.sina.com.cn/finance/futures.xml"
+      interval: 600
+      enabled: true
+
+    # ==================== 新浪财经 7x24 快讯 ====================
+    - id: "sina-finance-7x24"
+      name: "新浪财经 7x24 快讯"
+      url: "https://rsshub.app/sina/finance/7x24"
+      interval: 60
+      enabled: true
+
+    # ==================== 拓展财经平台 ====================
+    - id: "cls-telegraph"
+      name: "财联社电报"
+      url: "https://rsshub.app/cls/telegraph"
+      interval: 60
+      enabled: true
+
+    - id: "eastmoney-finance"
+      name: "东方财富网要闻"
+      url: "https://rss.eastmoney.com/news/finance.xml"
+      interval: 300
+      enabled: true
+
+    - id: "yicai-main"
+      name: "第一财经要闻"
+      url: "https://www.yicai.com/rss/"
+      interval: 300
+      enabled: true
+
+    - id: "xueqiu-hot"
+      name: "雪球热门讨论"
+      url: "https://rsshub.app/xueqiu/hot"
+      interval: 600
+      enabled: true
 
 # ===============================================================
 # 4. 报告模式
@@ -94,13 +167,13 @@ report:
   display_mode: "keyword"
   sort_by_position_first: false
   rank_threshold: 5
-  max_news_per_keyword: 0
+  max_news_per_keyword: 5
 
 # ===============================================================
 # 4.5 筛选策略
 # ===============================================================
 filter:
-  method: "keyword"
+  method: "keyword" # 可改为 "ai" 启用 AI 智能筛选
   priority_sort_enabled: true
 
 # ===============================================================
@@ -120,19 +193,23 @@ ai_filter:
 # ===============================================================
 display:
   region_order:
+    - rss
     - new_items
     - hotlist
-    - rss
-    - standalone
     - ai_analysis
+    - standalone
+
   regions:
     hotlist: true
-    new_items: false
+    new_items: true
     rss: true
     standalone: false
     ai_analysis: true
+
   standalone:
-    platforms: ["zhihu", "wallstreetcn-hot"]
+    platforms:
+      - "zhihu"
+      - "wallstreetcn-hot"
     rss_feeds: []
     max_items: 20
 
@@ -141,31 +218,40 @@ display:
 # ===============================================================
 notification:
   enabled: true
+
   channels:
     feishu:
-      webhook_url: ""
+      webhook_url: "" # 填入你的飞书 webhook
+
     dingtalk:
-      webhook_url: ""
+      webhook_url: "" # 填入你的钉钉 webhook
+
     wework:
-      webhook_url: ""
+      webhook_url: "" # 填入你的企业微信 webhook
       msg_type: "markdown"
+
     telegram:
       bot_token: ""
       chat_id: ""
+
     email:
       from: ""
       password: ""
       to: ""
       smtp_server: ""
       smtp_port: ""
+
     ntfy:
       server_url: "https://ntfy.sh"
-      topic: ""
+      topic: "trendradar-finance"
       token: ""
+
     bark:
       url: ""
+
     slack:
       webhook_url: ""
+
     generic_webhook:
       webhook_url: ""
       payload_template: ""
@@ -175,13 +261,16 @@ notification:
 # ===============================================================
 storage:
   backend: "auto"
+
   formats:
     sqlite: true
     txt: false
     html: true
+
   local:
     data_dir: "output"
-    retention_days: 0
+    retention_days: 30
+
   remote:
     retention_days: 0
     endpoint_url: ""
@@ -189,6 +278,7 @@ storage:
     access_key_id: ""
     secret_access_key: ""
     region: ""
+
   pull:
     enabled: false
     days: 7
@@ -198,12 +288,12 @@ storage:
 # ===============================================================
 ai:
   model: "deepseek/deepseek-v4-flash"
-  api_key: ""
+  api_key: "" # 填入你的 DeepSeek API Key
   api_base: ""
   timeout: 120
-  temperature: 1.0
+  temperature: 0.7
   max_tokens: 5000
-  num_retries: 1
+  num_retries: 2
   fallback_models: []
 
 # ===============================================================
@@ -215,7 +305,7 @@ ai_analysis:
   prompt_file: "ai_analysis_prompt.txt"
   mode: "follow_report"
   max_news_for_analysis: 150
-  include_rss: false
+  include_rss: true
   include_standalone: true
   include_rank_timeline: true
 
@@ -226,6 +316,7 @@ ai_translation:
   enabled: true
   language: "中文"
   prompt_file: "ai_translation_prompt.txt"
+
   scope:
     hotlist: false
     rss: true
@@ -239,25 +330,31 @@ advanced:
   version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version"
   mcp_version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version_mcp"
   configs_version_check_url: "https://raw.githubusercontent.com/sansan0/TrendRadar/refs/heads/master/version_configs"
+
   crawler:
     request_interval: 2000
     use_proxy: false
     default_proxy: "http://127.0.0.1:10801"
+
   rss:
     request_interval: 1000
     timeout: 15
     use_proxy: false
     proxy_url: ""
+
   weight:
     rank: 0.6
     frequency: 0.3
     hotness: 0.1
+
   max_accounts_per_channel: 3
+
   batch_size:
     default: 4000
     dingtalk: 20000
     feishu: 30000
     bark: 4000
     slack: 4000
+
   batch_send_interval: 3
   feishu_message_separator: "━━━━━━━━━━━━━━━━"
